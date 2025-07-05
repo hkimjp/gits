@@ -3,6 +3,7 @@
 ## Unreleased
 - `gits pull .`  を `gits pull` と間違うこと(. を忘れる)が多い。
 
+
 ## 0.2.2 - 2023-12-12
 - gits が正常終了しなかったのはどのディレクトリか？
   try~exception の位置を git() に移動した。

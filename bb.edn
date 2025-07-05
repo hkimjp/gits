@@ -3,4 +3,4 @@
 
  :aliases
  {:neil
-  {:project {:name projects-dir-keeper/projects-dir-keeper}}}}
+  {:project {:name hkimjp/gits}}}}
