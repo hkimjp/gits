@@ -8,7 +8,7 @@
 ;; FIXME: must set up timbre
 (timbre/merge-config! {:min-level :info})
 
-(def ^:private version "0.2.2")
+(def ^:private version "0.3.1")
 
 (defn print-version []
   (println "gits" version))
@@ -54,7 +54,7 @@ gits 単独では、`gits --parallel status .` のように働く。
   (fn [dir]
     (try
       (let [ret (ps/shell {:dir dir :out :string :err :string}
-                          (str "git " verb))]
+                  (str "git " verb))]
         (str dir " ... " (-> (:out ret) abbrev)))
       (catch Exception e
         (println "gits/git:" (str dir))
