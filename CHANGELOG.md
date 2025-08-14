@@ -1,12 +1,9 @@
-# gits.clj
+# gits
 
 ## Unreleased
 
-- gits --serial 時にエラー終了させる。bash の -e みたいの。
-- `gits pull .`  を `gits pull` と間違うこと(. を忘れる)が多い。
 
-
-## 0.3-SNAPSHOT
+## 0.4.0 (2025-08-14)
 
 - renamed `Makefile` to `Justfile`
 - basically parallel, when debug, use --serial or --debug
