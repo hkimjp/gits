@@ -1,14 +1,4 @@
 #!/bin/sh
-#
-# origin: ${utils}/tools/src/bump-version.sh
-#
-# last update: 2023-09-23
-#
-# CAUSION:
-# The POSIX standard regular expressions does not support back-references.
-# Back-references are considered as an "extended" faciliy.
-# This script, bump-version.sh, uses the extended function.
-# So, gnu-sed on macOS.
 
 if [ -z "$1" ]; then
     echo "usage: $0 <version>"
@@ -21,4 +11,4 @@ else
     SED="/usr/bin/sed -E"
 fi
 
-${SED} -i "s|(def \^:private version).*|\1 \"$1\")|" bb/gits.clj
+${SED} -i "s|(def \^:private version).*|\1 \"$1\")|" bb/gits.bb

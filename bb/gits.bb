@@ -51,7 +51,7 @@ gits 単独では、`gits --parallel status .` のように働く。
     "clean\n"
     s))
 
-(defn git
+(defn git-sh
   "ディレクトリを引数に取り、git verb を実行する関数を返す。"
   [verb]
   (fn [dir]
@@ -75,23 +75,32 @@ gits 単独では、`gits --parallel status .` のように働く。
   (git-dirs "~/projects")
   :rcf)
 
-(defn gits-serial [verb dirs]
-  (for [dir dirs]
-    (verb dir)))
+(defn gits-debug [verb dir]
+  (println "verb: " verb)
+  (println "dir: " dir)
+  (let [verb (git-sh verb)
+        dirs (git-dirs dir)]
+    (doseq [dir dirs]
+      (try
+        (println dir)
+        (verb dir)
+        (catch Exception e
+          (println (.getMessage e))
+          (throw (Exception. "git-debug")))))))
 
 (defn gits
   ([] (gits "--parallel" "status" "."))
   ([dir] (gits "--parallel" "status" dir))
   ([verb dir] (gits "--parallel" verb dir))
-  ([opt verb dir] (let [verb (git verb)
-                        dirs (git-dirs dir)]
-                    (if (= opt "--serial")
-                      (gits-serial verb dirs)
-                      (doall (pmap verb dirs))))))
+  ([opt verb dir]
+   (if (or (= opt "--serial") (= opt "--debug"))
+     (gits-debug verb dir)
+     (doall (pmap (git-sh verb) (git-dirs dir))))))
 
 (defn -main
   [& _]
   (case (first *command-line-args*)
+    "--debug or --serial" (println "debug")
     "--version" (print-version)
     "--help" (usage)
     (println (apply gits *command-line-args*))))
