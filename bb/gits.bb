@@ -8,7 +8,7 @@
 ;; FIXME: must set up timbre
 (timbre/merge-config! {:min-level :info})
 
-(def ^:private version "0.3.1")
+(def ^:private version "0.4.0")
 
 (defn print-version []
   (println "gits" version))
