@@ -1,6 +1,8 @@
 # gits.clj
 
 ## Unreleased
+
+- gits --serial 時にエラー終了させる。bash の -e みたいの。
 - `gits pull .`  を `gits pull` と間違うこと(. を忘れる)が多い。
 
 

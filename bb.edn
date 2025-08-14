@@ -2,5 +2,4 @@
  :deps  {}
 
  :aliases
- {:neil
-  {:project {:name hkimjp/gits}}}}
+ {:neil  {:project {:name hkimjp/gits}}}}

@@ -14,7 +14,10 @@
   (println "gits" version))
 
 (defn usage []
-  (println "\n\n## SYNOPSIS
+  (println "
+
+## SYNOPSIS
+
 gits [options] [git-command] [dir]
 
 dir 内の git dirs に対し、git something を実行する。
@@ -22,6 +25,7 @@ options, git-command, dir の順番は変えられない。
 gits 単独では、`gits --parallel status .` のように働く。
 
 ## EXAMPLES
+
 - gits --paralell status ~/projects
   ~/projects 内の複数の git フォルダの状態を並列にチェックする。
 
@@ -43,7 +47,6 @@ gits 単独では、`gits --parallel status .` のように働く。
 (defn abbrev
   "もし、s が clean で終わっていたら clean を返す"
   [s]
-  ;; (println "s=[" s "]")
   (if (re-find #"nothing to commit" s)
     "clean\n"
     s))
@@ -52,13 +55,9 @@ gits 単独では、`gits --parallel status .` のように働く。
   "ディレクトリを引数に取り、git verb を実行する関数を返す。"
   [verb]
   (fn [dir]
-    (try
-      (let [ret (ps/shell {:dir dir :out :string :err :string}
-                  (str "git " verb))]
-        (str dir " ... " (-> (:out ret) abbrev)))
-      (catch Exception e
-        (println "gits/git:" (str dir))
-        (println (.getMessage e))))))
+    (let [ret (ps/shell {:dir dir :out :string :err :string}
+                        (str "git " verb))]
+      (str dir " ... " (-> (:out ret) abbrev)))))
 
 (defn git-dir?
   "judge if `dir` is under git to check the existance of `dir/.git`."
@@ -76,13 +75,19 @@ gits 単独では、`gits --parallel status .` のように働く。
   (git-dirs "~/projects")
   :rcf)
 
+(defn gits-serial [verb dirs]
+  (for [dir dirs]
+    (do
+      (println (str dir))
+      (verb dir))))
+
 (defn gits
   ([] (gits "--parallel" "status" "."))
   ([dir] (gits "--parallel" "status" dir))
   ([verb dir] (gits "--parallel" verb dir))
   ([opt verb dir]
    (if (= opt "--serial")
-     (doall (mapv (git verb) (git-dirs dir)))
+     (gits-serial (git verb) (git-dirs dir))
      (doall (pmap (git verb) (git-dirs dir))))))
 
 (defn -main
