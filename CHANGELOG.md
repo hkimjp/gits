@@ -1,8 +1,13 @@
-# gits.clj
+# gits
 
 ## Unreleased
-- `gits pull .`  を `gits pull` と間違うこと(. を忘れる)が多い。
 
+
+## 0.4.0 (2025-08-14)
+
+- renamed `Makefile` to `Justfile`
+- basically parallel, when debug, use --serial or --debug
+- renamed `gits.clj` to `gits.bb`
 
 ## 0.2.2 - 2023-12-12
 - gits が正常終了しなかったのはどのディレクトリか？

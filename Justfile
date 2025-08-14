@@ -1,3 +1,3 @@
 install:
-	cp bb/gits.clj ~/bin/gits
+	cp bb/gits.bb ~/bin/gits
 	chmod +x ~/bin/gits
