@@ -77,18 +77,17 @@ gits 単独では、`gits --parallel status .` のように働く。
 
 (defn gits-serial [verb dirs]
   (for [dir dirs]
-    (do
-      (println (str dir))
-      (verb dir))))
+    (verb dir)))
 
 (defn gits
   ([] (gits "--parallel" "status" "."))
   ([dir] (gits "--parallel" "status" dir))
   ([verb dir] (gits "--parallel" verb dir))
-  ([opt verb dir]
-   (if (= opt "--serial")
-     (gits-serial (git verb) (git-dirs dir))
-     (doall (pmap (git verb) (git-dirs dir))))))
+  ([opt verb dir] (let [verb (git verb)
+                        dirs (git-dirs dir)]
+                    (if (= opt "--serial")
+                      (gits-serial verb dirs)
+                      (doall (pmap verb dirs))))))
 
 (defn -main
   [& _]
